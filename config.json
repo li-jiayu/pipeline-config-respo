@@ -3,6 +3,12 @@
     "group":"test",
     "name":"demoWarGradle_master_test",
     "enable_pipeline_locking":false,
+    "parameters":[
+        {
+            "name":"param",
+            "value":"parameter"
+        }
+    ],
     "timer":{
         "only_on_changes":true,
         "spec":"0 15 * ? * *"
@@ -15,21 +21,19 @@
     ],
     "materials":[
         {
-            "attributes":{
-                "branch":"master",
-                "url":"https://github.com/li-jiayu/demoWarGradle.git"
-            },
-            "type":"git"
+            "url":"https://github.com/li-jiayu/demoWarGradle.git",
+            "branch":"master",
+            "auto_update":true,
+            "name":"test1",
+            "type":"git",
+            "shallow_clone":true
         },
         {
-            "attributes":{
-                "pipeline":"demoWarGradle",
-                "stage":"build",
-                "auto_update":true,
-                "ignore_for_scheduling":false,
-                "name":"dependency"
-            },
-            "type":"dependency"
+            "pipeline":"demoWarGradle",
+            "stage":"build",
+            "name":"dependency",
+            "type":"dependency",
+            "ignore_for_scheduling":false
         }
     ],
     "stages":[
