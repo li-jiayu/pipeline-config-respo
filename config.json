@@ -3,12 +3,6 @@
     "group":"test",
     "name":"demoWarGradle_master_test",
     "enable_pipeline_locking":false,
-    "parameters":[
-        {
-            "name":"param",
-            "value":"parameter"
-        }
-    ],
     "timer":{
         "only_on_changes":true,
         "spec":"0 15 * ? * *"
@@ -40,35 +34,38 @@
     ],
     "stages":[
         {
+            "name":"build",
             "jobs":[
                 {
                     "name":"build",
+                    "timeout":180,
                     "elastic_profile_id":"java8-gradle6-pyupload",
-                    "timeout":1500,
                     "tasks":[
                         {
-                            "attributes":{
-                                "arguments":[
-                                    "build"
-                                ],
-                                "command":"gradle"
-                            },
-                            "type":"exec"
+                            "type":"exec",
+                            "run_if":"passed",
+                            "on_cancel":null,
+                            "command":"build",
+                            "arguments":[
+                                "-j3",
+                                "docs",
+                                "install"
+                            ],
+                            "working_directory":null
                         },
                         {
-                            "attributes":{
-                                "arguments":[
-                                    "/home/go/uploadArtifacts.py"
-                                ],
-                                "command":"python"
-                            },
-                            "working_directory":"build/libs/",
-                            "type":"exec"
+                            "type":"exec",
+                            "run_if":"passed",
+                            "on_cancel":null,
+                            "command":"python",
+                            "arguments":[
+                                "/home/go/uploadArtifacts.py"
+                            ],
+                            "working_directory":"build/libs/"
                         }
                     ]
                 }
-            ],
-            "name":"build"
+            ]
         }
     ]
 }
